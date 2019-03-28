@@ -1,11 +1,14 @@
 Package: RcmdrPlugin.rmaeng2
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Rcommander Plug IN : DOE for Industrial Management Engineering
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Date: 2019-03-26
+Author: IMERMAENG2
+Maintainer: <sf01363@naver.com>
+Description: The package provides a platform-independent GUI for design of experiments.
+ It is implemented as a plugin to the R-Commander, which is a more general 
+ graphical user interface for statistics in R based on tcl/tk. 
 Encoding: UTF-8
 LazyData: true
+License: MIT + file LICENSE
+RoxygenNote: 6.1.1
