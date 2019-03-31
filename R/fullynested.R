@@ -19,6 +19,12 @@
 #' @importFrom
 #' stats anova
 #' stats lm
+#' tcltk tktitle
+#' tcltk ttkbutton
+#' tcltk tkgrid
+#' tcltk tkconfigure
+#' tcltk tkadd
+#' tcltk2 tk2menu
 
 # fully nested
 sp.plot2<-function(pplot,splot,aplot,rplot,y){
@@ -53,3 +59,40 @@ sp.plot2<-function(pplot,splot,aplot,rplot,y){
   rownames(mo)<-N
   mo
 }
+
+library(tcltk)
+library(tcltk2)
+win2 <- tcltk::tktoplevel()
+tcltk::tktitle(win2) <- "rmaeng2"
+win2$env$butOK <- tcltk::ttkbutton(win2, text = "OK", width = -6,
+                                   command = (function(win) { force(win); function() tkdestroy(win)})(win2))
+tcltk::tkgrid(win2$env$butOK, padx = 100, pady = 100)
+win2$env$menu <- tcltk2::tk2menu(win2)
+tcltk::tkconfigure(win2, menu = win2$env$menu)
+win2$env$menuFile <- tcltk2::tk2menu(win2$env$menu, tearoff = FALSE)
+win2$env$menuOpenRecent <- tcltk2::tk2menu(win2$env$menuFile, tearoff = FALSE)
+tcltk::tkadd(win2$env$menuOpenRecent, "command", label = "Recent File 1",
+             command = function() tkmessageBox(
+               message = "I don't know how to open Recent File 1", icon = "error"))
+tcltk::tkadd(win2$env$menuOpenRecent, "command", label = "Recent File 2",          #####
+             command = function() tkmessageBox(
+               message = "I don't know how to open Recent File 2", icon = "error")) #####
+tcltk::tkadd(win2$env$menuFile, "cascade", label = "ANOVA",
+             menu = win2$env$menuOpenRecent)
+tcltk::tkadd(win2$env$menuFile, "cascade", label = "Split Design",
+             menu = win2$env$menuOpenRecent)                             #################
+tcltk::tkadd(win2$env$menuFile, "cascade", label = "Latin Square Design",
+             menu = win2$env$menuOpenRecent)
+tcltk::tkadd(win2$env$menuFile, "cascade", label = "Factorial Design",
+             menu = win2$env$menuOpenRecent)
+tcltk::tkadd(win2$env$menuFile, "cascade", label = "Confounding Design",
+             menu = win2$env$menuOpenRecent)
+tcltk::tkadd(win2$env$menuFile, "cascade", label = "Fractional Replication",
+             menu = win2$env$menuOpenRecent)
+tcltk::tkadd(win2$env$menuFile, "cascade", label = "Table of Orthogonal Arrays",
+             menu = win2$env$menuOpenRecent)
+tcltk::tkadd(win2$env$menuFile, "cascade", label = "Response Surface Analyze",
+             menu = win2$env$menuOpenRecent)
+tcltk::tkadd(win2$env$menuFile, "command", label = "Quit",
+             command = function() tkdestroy(win2))
+tcltk::tkadd(win2$env$menu, "cascade", label = "DOE", menu = win2$env$menuFile)
