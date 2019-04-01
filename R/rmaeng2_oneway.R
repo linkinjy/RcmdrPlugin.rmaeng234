@@ -25,9 +25,8 @@ rmaeng2_oneway <- function () {
   UpdateModelNumber()
   modelName <- tclVar(paste("AnovaModel.", getRcmdr("modelNumber"),
                             sep = ""))
-  modelFrame <- tcltk::tkframe(top)
-  model <- tcltk::
-    ttkentry(modelFrame, width = "20", textvariable = modelName)
+  modelFrame <- tkframe(top)
+  model <- ttkentry(modelFrame, width = "20", textvariable = modelName)
   dataFrame <- tkframe(top)
   groupBox <- variableListBox(dataFrame, Factors(), title = gettextRcmdr("Groups (pick one)"),
                               initialSelection = varPosn(dialog.values$initial.group, "factor"))
