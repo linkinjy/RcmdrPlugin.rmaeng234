@@ -2,18 +2,16 @@
 #'
 #' one way anova test
 #'
-#' @param ()
+#' @param infile Path to the input files
 #'
-#' @return anova
-#'
-#' @examples
-#'
-#' @export
+#' @return analysis of the infile
 #'
 #' @importFrom
 #' tcltk tkframe
 #' tcltk ttkentry
 #' tcltk ttkcheckbutton
+#'
+#' @export
 
 .onAttach <- function(libname, pkgname){
   if (!interactive()) return()
@@ -33,29 +31,27 @@
       Commander()
     }
   }
+}
 
 rmaeng2_oneway <- function () {
-  Library("multcomp")
-  Library("abind")
-  Library("tcltk")
   defaults <- list(initial.group = NULL, initial.response = NULL, initial.pairwise = 0, initial.welch=0)
   dialog.values <- getDialog("oneWayAnova", defaults)
   initializeDialog(title = gettextRcmdr("One-Way Analysis of Variance"))
   UpdateModelNumber()
-  modelName <- tclVar(paste("AnovaModel.", getRcmdr("modelNumber"),
+  modelName <- tcltk::tclVar(paste("AnovaModel.", getRcmdr("modelNumber"),
                             sep = ""))
-  modelFrame <- tkframe(top)
-  model <- ttkentry(modelFrame, width = "20", textvariable = modelName)
-  dataFrame <- tkframe(top)
+  modelFrame <- tcltk::tkframe(top)
+  model <- tcltk::ttkentry(modelFrame, width = "20", textvariable = modelName)
+  dataFrame <- tcltk::tkframe(top)
   groupBox <- variableListBox(dataFrame, Factors(), title = gettextRcmdr("Groups (pick one)"),
                               initialSelection = varPosn(dialog.values$initial.group, "factor"))
   responseBox <- variableListBox(dataFrame, Numeric(), title = gettextRcmdr("Response Variable (pick one)"),
                                  initialSelection = varPosn(dialog.values$initial.response, "numeric"))
-  optionsFrame <- tkframe(top)
-  pairwiseVariable <- tclVar(dialog.values$initial.pairwise)
-  pairwiseCheckBox <- ttkcheckbutton(optionsFrame, variable = pairwiseVariable)
-  welchVariable <- tclVar(dialog.values$initial.welch)
-  welchCheckBox <- ttkcheckbutton(optionsFrame, variable = welchVariable)
+  optionsFrame <- tcltk::tkframe(top)
+  pairwiseVariable <- tcltk::tclVar(dialog.values$initial.pairwise)
+  pairwiseCheckBox <- tcltk::ttkcheckbutton(optionsFrame, variable = pairwiseVariable)
+  welchVariable <- tcltk::tclVar(dialog.values$initial.welch)
+  welchCheckBox <- tcltk::ttkcheckbutton(optionsFrame, variable = welchVariable)
   onOK <- function() {
     modelValue <- trim.blanks(tclvalue(modelName))
     if (!is.valid.name(modelValue)) {
@@ -122,19 +118,19 @@ rmaeng2_oneway <- function () {
                        group, ", data=", .activeDataSet, ") # Welch test", sep = "")
       doItAndPrint(command)
     }
-    tkfocus(CommanderWindow())
+    tcltk::tkfocus(CommanderWindow())
   }
   OKCancelHelp(helpSubject = "anova", model = TRUE, reset = "oneWayAnova", apply = "oneWayAnova")
-  tkgrid(labelRcmdr(modelFrame, text = gettextRcmdr("Enter name for model: ")),
+  tcltk::tkgrid(labelRcmdr(modelFrame, text = gettextRcmdr("Enter name for model: ")),
          model, sticky = "w")
-  tkgrid(modelFrame, sticky = "w", columnspan = 2)
-  tkgrid(getFrame(groupBox), labelRcmdr(dataFrame, text="  "), getFrame(responseBox), sticky = "nw")
-  tkgrid(dataFrame, sticky="w")
-  tkgrid(pairwiseCheckBox, labelRcmdr(optionsFrame, text = gettextRcmdr("Pairwise comparisons of means")),
+  tcltk::tkgrid(modelFrame, sticky = "w", columnspan = 2)
+  tcltk::tkgrid(getFrame(groupBox), labelRcmdr(dataFrame, text="  "), getFrame(responseBox), sticky = "nw")
+  tcltk::tkgrid(dataFrame, sticky="w")
+  tcltk::tkgrid(pairwiseCheckBox, labelRcmdr(optionsFrame, text = gettextRcmdr("Pairwise comparisons of means")),
          sticky = "w")
-  tkgrid(welchCheckBox, labelRcmdr(optionsFrame, text = gettextRcmdr("Welch F-test not assuming equal variances")),
+  tcltk::tkgrid(welchCheckBox, labelRcmdr(optionsFrame, text = gettextRcmdr("Welch F-test not assuming equal variances")),
          sticky = "w")
-  tkgrid(optionsFrame, sticky = "w")
-  tkgrid(buttonsFrame, sticky = "w")
+  tcltk::tkgrid(optionsFrame, sticky = "w")
+  tcltk::tkgrid(buttonsFrame, sticky = "w")
   dialogSuffix()
 }
