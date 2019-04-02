@@ -2,7 +2,7 @@
 #'
 #' one way anova test
 #'
-#' @param
+#' @param ()
 #'
 #' @return anova
 #'
@@ -14,6 +14,25 @@
 #' tcltk tkframe
 #' tcltk ttkentry
 #' tcltk ttkcheckbutton
+
+.onAttach <- function(libname, pkgname){
+  if (!interactive()) return()
+  putRcmdr("slider.env", new.env())
+  Rcmdr <- options()$Rcmdr
+  plugins <- Rcmdr$plugins
+  if (!pkgname %in% plugins) {
+    Rcmdr$plugins <- c(plugins, pkgname)
+    options(Rcmdr=Rcmdr)
+    if("package:Rcmdr" %in% search()) {
+      if(!getRcmdr("autoRestart")) {
+        closeCommander(ask=FALSE, ask.save=TRUE)
+        Commander()
+      }
+    }
+    else {
+      Commander()
+    }
+  }
 
 rmaeng2_oneway <- function () {
   Library("multcomp")
